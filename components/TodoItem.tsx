@@ -47,8 +47,9 @@ export default function TodoItem({ item, onToggle, onDelete }: Props) {
         className="flex-1 min-w-0 truncate text-[12.5px] transition-all duration-150"
         style={{
           color: item.done ? "var(--color-text-tertiary)" : "var(--color-text)",
-          textDecoration: item.done ? "line-through" : "none",
+          textDecorationLine: item.done ? "line-through" : "none",
           textDecorationColor: "var(--color-text-tertiary)",
+          textDecorationStyle: "solid",
         }}
       >
         {item.text}

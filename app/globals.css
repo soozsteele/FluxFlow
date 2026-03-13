@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #08080a;
+  --color-surface: #111114;
+  --color-surface-hover: #18181c;
+  --color-border: #3a3a42;
+  --color-border-subtle: #1a1a1f;
+  --color-text: #f0f0f5;
+  --color-text-secondary: #8a8a95;
+  --color-text-tertiary: #5a5a65;
+  --color-accent: #e5a200;
+  --color-accent-dim: #e5a20018;
+  --color-accent-glow: #e5a20030;
+  --color-accent-hover: #f0b020;
+  --color-status-todo: #e5a200;
+  --color-status-progress: #6d9fff;
+  --color-status-complete: #3dd68c;
+  --color-danger: #e5484d;
+  --color-danger-hover: #f2555a;
+  --color-priority-low: #3dd68c;
+  --color-priority-medium: #e5a200;
+  --color-priority-high: #f76b15;
+  --color-priority-urgent: #e5484d;
+
+  --font-mono: "JetBrains Mono", monospace;
+  --font-body: "IBM Plex Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Grain texture overlay ──────────────────────────────────── */
+.grain-overlay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px;
+}
+
+/* ── Dot-grid background texture ────────────────────────────── */
+.surface-grid {
+  background-image: radial-gradient(circle, var(--color-border-subtle) 0.5px, transparent 0.5px);
+  background-size: 16px 16px;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+/* ── Dialog ─────────────────────────────────────────────────── */
+dialog {
+  color: inherit;
+}
+dialog::backdrop {
+  background: rgba(4, 4, 6, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+/* ── Input reset ────────────────────────────────────────────── */
+input, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* ── Focus glow ─────────────────────────────────────────────── */
+.focus-glow:focus {
+  box-shadow: 0 0 0 1px var(--color-accent), 0 0 8px var(--color-accent-dim);
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+
+/* Stagger slide-in for lists */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-in {
+  animation: fadeSlideIn 0.2s ease-out both;
+}
+
+/* Scale pop for new items */
+@keyframes scalePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  60% {
+    transform: scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-pop {
+  animation: scalePop 0.2s ease-out both;
+}
+
+/* Soft pulse for drop zones */
+@keyframes dropPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.animate-drop-pulse {
+  animation: dropPulse 1.2s ease-in-out infinite;
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Drag overlay float */
+.drag-overlay {
+  transform: rotate(1.5deg) scale(1.03);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 0 2px var(--color-accent);
+}
+
+/* Checkbox pop */
+@keyframes checkPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+.check-pop {
+  animation: checkPop 0.2s ease-out;
+}
+
+/* Smooth fade for panels on load */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade {
+  animation: fadeIn 0.3s ease-out both;
+}
+
+/* ── Panel header label ─────────────────────────────────────── */
+.panel-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+/* ── Date input ─────────────────────────────────────────────── */
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+  cursor: pointer;
+}
+
+/* ── Empty state ────────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 16px;
+  text-align: center;
+}
+.empty-state svg {
+  color: var(--color-text-tertiary);
+  opacity: 0.5;
+}
+.empty-state p {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  max-width: 180px;
+  line-height: 1.6;
+}
